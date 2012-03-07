@@ -1,0 +1,60 @@
+/*
+   Copyright 2011 Julian Schutsch
+
+   This file is part of TRTGarf
+
+   TRTGarf is free software: you can redistribute it and/or modify
+   it under the terms of the GNU Lesser General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   TRTGarf is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public License
+   along with TRTGarf.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#ifndef _Signals_SignalSet_
+#define _Signals_SignalSet_
+#include "Signals/Signal.hpp"
+#include <list>
+#include <map>
+
+namespace Signals
+{
+
+//*****************************************************************************
+// SignalSet
+//  Stores a list of groups of signals
+//  Groups are accessed by an integer (index)
+//  Signals in the groups are accessed by name
+//*****************************************************************************
+class SignalSet
+{
+  private:
+  std::vector< std::map<std::string,Signal> >FSignalSet;
+  std::string FDescription;
+  public:
+  // An Index of -1 means : Add a new group
+  unsigned int GetGroupCount();
+  unsigned int SetSignal(int AIndex,std::string AId,Signal& ASignal);
+  Signal& GetSignal(int AIndex,std::string AId);
+  SignalSet(std::string ADescription);
+  std::string& GetDescription();
+  friend Tools::ASCIIOutStream& operator<<(Tools::ASCIIOutStream& AStream,
+                                           SignalSet& ASignalSet);
+  friend Tools::ASCIIInStream& operator>>(Tools::ASCIIInStream& AStream,
+                                          SignalSet& ASignalSet);
+};
+
+Tools::ASCIIOutStream& operator<<(Tools::ASCIIOutStream& AStream,
+                                  SignalSet& ASignalSet);
+Tools::ASCIIInStream& operator>>(Tools::ASCIIInStream& AStream,
+                                 SignalSet& ASignalSet);
+
+
+}
+#endif
